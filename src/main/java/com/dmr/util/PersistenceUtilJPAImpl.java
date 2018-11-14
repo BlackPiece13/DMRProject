@@ -10,8 +10,10 @@ public class PersistenceUtilJPAImpl implements PersistenceUtil {
 	private PersistenceUtilJPAImpl() {
 		try {
 			emf = Persistence.createEntityManagerFactory("bibliotheque-pu");
+			System.out.println();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
+
 		}
 	}
 

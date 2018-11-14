@@ -7,7 +7,7 @@
 		<description>Location to store uploaded file</description>
 		<param-name>file-upload</param-name>
 		<param-value>
-         C:\Users\dmr\eclipse-workspace\ServletJAVA\ServletJAVA\src\main\webapp\static
+         C:\Users\dmr\eclipse-workspace\DMRProject\src\main\webapp\static
       </param-value>
 	</context-param>
 	<servlet>
@@ -16,7 +16,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>IndexController</servlet-name>
-		<url-pattern>/index</url-pattern>
+		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -45,6 +45,16 @@
 		<servlet-name>LogoutController</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SearchPerson</servlet-name>
+		<servlet-class>com.dmr.controller.SearchPerson</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchPerson</servlet-name>
+		<url-pattern>/search</url-pattern>
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index</welcome-file>
 	</welcome-file-list>
@@ -61,5 +71,8 @@
 		<servlet-name>ManageMediaController</servlet-name>
 		<url-pattern>/addMedia</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>ManageMediaController</servlet-name>
+		<url-pattern>/removeMedia</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -19,36 +19,37 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("Controller get logincontroller");
-		req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String password = req.getParameter("password");
 		String login = req.getParameter("login");
-		String role = req.getParameter("role");
 
-		System.out.println("valeurs formulaire " + password + " " + login + " " + role);
-
-		if (!password.isEmpty() && !login.isEmpty() && !role.isEmpty()) {
-
-			if (isFound(login, password, role)) {
+		if (!password.isEmpty() && !login.isEmpty()) {
+			User user = isFound(login, password);
+			if (user != null) {
 				HttpSession session = req.getSession(true);
-				session.setAttribute("login", login);
-				session.setAttribute("password", password);
-				session.setAttribute("role", role);
-				resp.sendRedirect(".");
+				session.setAttribute("user", user);
+				resp.sendRedirect("./home");
 			} else {
-				System.out.println("renvoi vers inscription");
+				System.out.println("erreur authentification");
 				req.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(req, resp);
+//				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//				resp.setContentType("text/xml");
+//				resp.getWriter().write("Utilisateur non trouve");
 			}
 		} else {
 			System.out.println("champs formulaire login vide");
-			req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//			resp.setContentType("text/xml");
+//			resp.getWriter().write("Champs formulaire vides");
+			req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, resp);
 		}
 	}
 
-	private boolean isFound(String login, String password, String role) {
+	private User isFound(String login, String password) {
 		UserDAO userDAO = new UserDAO();
 		userDAO.intialiazeSession();
 		List<User> users = userDAO.findAll();
@@ -60,21 +61,17 @@ public class LoginController extends HttpServlet {
 			} else {
 				if (!login.equals(user.getLogin())) {
 					found = false;
-				} else {
-					if (!role.equals(user.getRole())) {
-						found = false;
-					}
 				}
 			}
 			if (found) {
 				userDAO.closeSession();
 				System.out.println("Utilisateur trouve");
 				userDAO.closeSession();
-				return found;
+				return user;
 			}
 		}
 		System.out.println("Utilisateur non trouve");
 		userDAO.closeSession();
-		return found;
+		return null;
 	}
 }

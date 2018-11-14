@@ -1,15 +1,11 @@
 package com.dmr.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import com.dmr.dao.MediaDAO;
 import com.dmr.model.Book;
@@ -26,8 +22,8 @@ public class ManageMediaController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doGet(req, resp);
+		String id = req.getParameter("button-id");
+		System.out.println("remove media with id " + id);
 	}
 
 	@Override
@@ -36,17 +32,19 @@ public class ManageMediaController extends HttpServlet {
 		String title = req.getParameter("title");
 		String author = req.getParameter("author");
 		String resume = req.getParameter("resume");
-		Part part = req.getPart("cover");
-
-		if (title != null && author != null && resume != null && part.getSize() > 0) {
+		String url = req.getParameter("url");
+		// Part part = req.getPart("cover");
+		if (title != null && author != null && resume != null && url != null) {
 			Book book = new Book();
 			book.setAuthor(author);
 			book.setResume(resume);
 			book.setTitle(title);
-
-			InputStream inputStream = part.getInputStream();
 			book.setCover(new Cover());
-			book.getCover().setImage(inputStream.readAllBytes());
+			book.getCover().setUrl(url);
+			/*
+			 * InputStream inputStream = part.getInputStream(); book.setCover(new Cover());
+			 * book.getCover().setImage(inputStream.readAllBytes());
+			 */
 
 			/*
 			 * solution bis part.write(filePath + File.separator +
@@ -62,8 +60,9 @@ public class ManageMediaController extends HttpServlet {
 			mediaDAO.intialiazeSession();
 			mediaDAO.save(book);
 			mediaDAO.closeSession();
+			System.out.println("enregistrement media book");
 		}
-		resp.sendRedirect(".");
+		resp.sendRedirect("./home");
 	}
 
 }

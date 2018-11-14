@@ -18,12 +18,13 @@ public class IndexController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("controller index get");
+
 		BookDAO bookDAO = new BookDAO();
 		bookDAO.intialiazeSession();
 		List<Book> books = bookDAO.findAll();
 		bookDAO.closeSession();
 		req.setAttribute("books", books);
-		req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, resp);
 	}
 
 	@Override

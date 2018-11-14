@@ -17,7 +17,7 @@ public class LogoutController extends HttpServlet {
 		if (session != null) {
 			session.invalidate();
 		}
-		req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, resp);
 	}
 
 	@Override

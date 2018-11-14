@@ -5,23 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-<script src="js/librairie.js"></script>
+<script src="./js/librairie.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<c:forEach items="${books}" var="book">
-	${book.title}<br>
-	<img src="data:image/png;base64,${book.cover.image}" alt="hello image" />
-</c:forEach>
 
 <body>
+	<c:forEach items="${books}" var="book">
+		${book.title}<br>
+	</c:forEach>
 
-	<script type="text/javascript">
-		document.getElementById("ItemPreview").src = "data:image/png;base64,"
-				+ $
-		{
-			byteArray
-		};
-	</script>
+	<div id="validationMessage"></div>
+	<button onclick="sayHello()">hello</button>
 	<div class="header">
 		<h1>Librairie</h1>
 	</div>
@@ -39,7 +33,7 @@
 
 		<c:if test="${not empty role}">
 			<a href="logout" id="logout_id" class="topnav-el"
-				style="float: right">Logout</a>
+				style="float: right" onclick="deleteCookie('sessionType');">logout</a>
 			<c:if test="${role=='admin'}">
 				<a href="#" id="add" class="topnav-el" style="float: right">Add</a>
 
@@ -56,9 +50,9 @@
 					type="text" name="author" class="form-field"> <label
 					for="abstract" class="form-label">Resume : </label>
 				<textarea name="resume" class="form-field"></textarea>
-				<label for="cover" class="form-label">Couverture : </label> <input
-					type="file" name="cover" class="form-field" id="cover"
-					accept=".png"> <input type="submit" value="Ajouter"></input>
+				<label for="cover" class="form-label">Couverture URL : </label> <input
+					type="text" name="url" class="form-field" id="cover" accept=".png">
+				<input type="submit" value="Ajouter"></input>
 			</form>
 		</div>
 	</c:if>
@@ -92,9 +86,12 @@
 			<button id="p1-p" class="user p-button">+</button>
 			<input type="text" id="p1-i" class="user media-input" value="0">
 			<button id="p1-m" class="user m-button">-</button>
-			<button id="p1-c" class="admin">Modifier</button>
-			<button id="p1-r" class="admin">Supprimer</button>
+			<button id="p1-c" class="book_button">Modifier</button>
+			<button id="p1-r" class="book_button">Supprimer</button>
 		</div>
+
+
+
 	</div>
 
 	<div class="row">
@@ -144,5 +141,8 @@
 	<div class="footer">
 		<h2>bla bla bla</h2>
 	</div>
+
+
+
 </body>
 </html>

@@ -1,35 +1,40 @@
-<%@page pageEncoding="UTF-8" session="true"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
-<html>
-<head>
-<meta charset="UTF-8">
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-<script src="js/librairie.js"></script>
-<link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
+<%@include file="head.jsp"%>
 <body>
+	<%@include file="navbar.jsp"%>
 
-	<div class="header">
-		<h1>inscription</h1>
-	</div>
-	<div>
-		<label class="error">${error}</label>
-	</div>
 
-	<div id="inscription">
-		<form action="inscription" method="post">
-			<label for="mail">Mail: </label> <input type="text" name="mail"
-				id="input-mail"> <label for="login">Login: </label> <input
-				type="text" name="login" id="input-login"> <label
-				for="password">Password: </label> <input type="text" name="password"
-				id="input-password"> <label for="access">Access: </label> <select
-				name="role" id="select-type">
-				<option value="admin">Admin</option>
-				<option value="user">User</option>
-			</select>
-			<button id="login">Inscrire</button>
-		</form>
-	</div>
+	<form class="form-horizontal" action="inscription" method="post">
+		<div class="form-group">
+			<label class="control-label col-sm-offset-2 col-sm-2" for="email">Email:</label>
+			<div class="col-sm-6">
+				<input type="email" class="form-control" id="email" name="email"
+					placeholder="Enter email">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-offset-2 col-sm-2" for="email">Login:</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" id="login" name="login"
+					placeholder="Enter login">
+			</div>
+		</div>
 
+
+		<div class="form-group">
+			<label class="control-label col-sm-offset-2 col-sm-2" for="pwd">Password:</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control" id="password"
+					name="password" placeholder="Enter password">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-4 col-sm-10">
+				<button type="submit" class="btn btn-success">Inscrire </button>
+				<label class="error">  ${error}</label>
+			</div>
+		</div>
+	</form>
 
 </body>
+</html>

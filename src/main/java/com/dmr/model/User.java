@@ -3,21 +3,17 @@ package com.dmr.model;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
-@DiscriminatorValue("USER")
 public class User extends Person {
 
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
-
 	private String Login;
-
 	@Column(name = "password")
 	private String pwd;
 	private String mail;

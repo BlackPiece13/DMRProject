@@ -1,0 +1,19 @@
+#image-col {
+	margin-top: 25px;
+}
+
+.navbar-inverse {
+	margin-left: 20px;
+}
+
+.form-horizontal {
+	margin-top: 20px;
+}
+
+#login-form {
+	margin-top: 15px;
+}
+
+#error-label {
+	color: red;
+}

@@ -1,8 +1,3 @@
-
-
-
-
-
 $(document).ready(function() {
 
 	// Map to store the number of product selected per media
@@ -15,7 +10,8 @@ $(document).ready(function() {
 
 
 
-	// Connection management //////////////////////////////////////////////////////////////////////
+	// Connection management
+	// //////////////////////////////////////////////////////////////////////
 
 	// Event listener on 'show-connect' button to toggle the login form
 	$("#show-login").click(function() {
@@ -25,25 +21,24 @@ $(document).ready(function() {
 
 	// Event listener on login button to validate and submit the login/password
 	$("#login").click(function() {
-		setCookie("login", $("#input-login").val() , 1);
-		setCookie("sessionType", $("#select-type").val(), 1);
-		updateVisibility();
 		$("#connection").slideToggle();
 	});
 
 	// Event listenr on logout button to remove cookies
-	$("#logout").click(function() {
-		deleteCookie("login");
+	$("#logout_id").click(function() {
 		deleteCookie("sessionType");
+		console.log("log out button");
 		updateVisibility();
 	});
 
 	// hide elements according to cookies
+	console.log("avant apple fonction visibility");
 	updateVisibility();
 
 
 
-	// Media management ///////////////////////////////////////////////////////////////////////////
+	// Media management
+	// ///////////////////////////////////////////////////////////////////////////
 
 	// Listener on "add" button
 	$("#add").click(function(){
@@ -51,7 +46,8 @@ $(document).ready(function() {
 	});
 
 
-	// Media selection managment ///////////////////////////////////////////////////////////////////
+	// Media selection managment
+	// ///////////////////////////////////////////////////////////////////
 
 	// Listener on the + and - buttons of the products
 	$(".p-button,.m-button").click(function(){
@@ -74,7 +70,8 @@ $(document).ready(function() {
 
 
 
-	// Visibility control methods /////////////////////////////////////////////////////////////////////
+	// Visibility control methods
+	// /////////////////////////////////////////////////////////////////////
 
 	function updateMediaVisibility(id) {
 		if (getCookie("sessionType") == "user") {
@@ -93,6 +90,7 @@ $(document).ready(function() {
 			$("#"+id+"-p").hide();
 			$("#"+id+"-i").hide();
 			$("#"+id+"-m").hide();
+			
 		}
 	}
 
@@ -100,6 +98,20 @@ $(document).ready(function() {
 	function updateVisibility() {
 		var login = getCookie("login");
 		var type = getCookie("sessionType");
+		$(".book_button").hide();
+		if (type == "admin") {
+			console.log("cookie value "+type);
+			$(".user").hide();
+			$(".book_button").show();
+			$("#order").hide();
+		} else if (type == "user") {
+			$(".user").show();
+			$(".admin").hide();
+			if (nbProduits > 0)
+				$("#order").html("Order (" + nbProduits + ")").show();
+			else
+				$("#order").hide();
+		}
 		if (login == "") {
 			$(".user").hide();
 			$(".admin").hide();
@@ -126,19 +138,17 @@ $(document).ready(function() {
 			updateMediaVisibility(id);
 		}
 	}
-
-
-
 });
-
-
-// W3schools function to manipulate coockies //////////////////////////////////////////////////////
+// W3schools function to manipulate coockies
+// //////////////////////////////////////////////////////
 
 function setCookie(cname, cvalue, exdays) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
 	var expires = "expires="+d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	var cookie=cname + "=" + cvalue + ";" + expires + ";path=/";
+	document.cookie = cookie;
+	console.log("delete cookie   "+cookie);
 }
 
 function getCookie(cname) {
@@ -157,5 +167,47 @@ function getCookie(cname) {
 }
 
 function deleteCookie(cname) {
+	console.log("delete cookie");
+	alert();
+	setCookie(cname, "a", 1);
 	document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
+
+// // partie ajax
+function getXMLHttpRequest() {
+	var xhr = null;
+	if (window.XMLHttpRequest || window.ActiveXObject) {
+		if (window.ActiveXObject) {
+			try {
+				xhr = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch (e) {
+				xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		} else {
+			xhr = new XMLHttpRequest();
+		}
+	} else {
+		alert("Navigateur incompatible avec XMLHTTPRequest");
+		return null;
+	}
+	return xhr;
+}
+requete = ""; // variable globale
+function sayHello() {
+	var url = "search";
+	requete = getXMLHttpRequest();
+	requete.open("GET", url, true);
+	requete.onreadystatechange = displayMessage;
+	requete.send();
+}
+function displayMessage() {
+	var message = "";
+	if ((requete.readyState == 4) && (requete.status == 200)) {
+		var messageTag = requete.responseText;
+		// message = messageTag.childNodes[0].nodeValue;
+		mdiv = document.getElementById("validationMessage");
+		mdiv.innerHTML = messageTag;
+		console.log(requete);
+	}
+}
+

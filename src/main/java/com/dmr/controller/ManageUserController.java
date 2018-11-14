@@ -18,7 +18,7 @@ public class ManageUserController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("Get controller");
-		req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(req, resp);
 	}
 
 	@Override
@@ -30,21 +30,17 @@ public class ManageUserController extends HttpServlet {
 
 		String login = req.getParameter("login");
 		String password = req.getParameter("password");
-		String role = req.getParameter("role");
-		String mail = req.getParameter("mail");
+		String email = req.getParameter("email");
 
-		if (!login.isEmpty() && !password.isEmpty() && !role.isEmpty()) {
+		if (!login.isEmpty() && !password.isEmpty() && !email.isEmpty()) {
 
-			if (userDAO.findByMail(mail).isEmpty()) {
-				User user = new User(login, password, role, mail);
+			if (userDAO.findByMail(email).isEmpty()) {
+				User user = new User(login, password, "user", email);
 				userDAO.save(user);
 				userDAO.closeSession();
 				HttpSession session = req.getSession(true);
-				session.setAttribute("login", login);
-				session.setAttribute("password", password);
-				session.setAttribute("role", role);
-				session.setAttribute("mail", mail);
-				resp.sendRedirect(".");
+				session.setAttribute("user", user);
+				resp.sendRedirect("./home");
 			} else {
 				req.setAttribute("error", "erreur : utilisateur deja existant");
 				userDAO.closeSession();
